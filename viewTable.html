@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="text-center"><h1>Hot Restaurant</h1>
+      <h3>We only have 5 tables! Book your seat before they all are gone!</h3>
+      </div>
+      <hr>
+      <a href="/add"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span></span></button></a>
+      <a href="/add"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
+    </div>
+    
+    <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Current Reservations</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="well" id="tableWell-01">
+              <h2>
+                <span class="label label-primary">1 </span>
+              </h2>
+            </div>
+
+            <div class="well" id="tableWell-02">
+              <h2>
+                <span class="label label-primary">2 </span>
+              </h2>
+            </div>
+
+             <div class="well" id="tableWell-03">
+              <h2>
+                <span class="label label-primary">3 </span>
+              </h2>
+            </div>
+              <div class="well" id="tableWell-04">
+              <h2>
+                <span class="label label-primary">4 </span>
+              </h2>
+            </div>
+              <div class="well" id="tableWell-05">
+              <h2>
+                <span class="label label-primary">5 </span>
+              </h2>
+            </div>
+
+          </div>
+        </div> 
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Waiting List</strong></h3>
+          </div> 
+          <div class="panel-body" id="waitListSection">
+        </div> 
+       </div> 
+        <footer class="footer">
+          <div class= "container">
+            <p>Control Panel</p>
+              <p>
+                <a href="#" id="clear">Clear Table</a> |
+                <a href="/api/tables" id="clear">API  Table LINK</a> |
+                <a href="/api/waitlist" id="clear">API  Wait List</a>|
+               </p> 
+          </div> 
+         </footer>      
+                
+
+    
+    <script type="text/javascript">
+
+  function runTableQuery(){
+
+    // Here we get the location of the root page.
+    // We use this instead of explicitly saying the URL is localhost:3001 because the url will change when we deploy.
+    var currentURL = window.location.origin;
+
+    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+    $.ajax({url: currentURL + "/api/tables", method: "GET"})
+      .done(function(tableData) {
+
+        // Here we are logging the URL so we have access to it for troubleshooting
+        console.log("------------------------------------");
+        console.log("URL: " + currentURL + "/api/tables");
+        console.log("------------------------------------");
+
+        // Here we then log the NYTData to console, where it will show up as an object.
+        console.log(tableData);
+        console.log("------------------------------------")
+
+        // Loop through and display each of the customers
+        for (var i=0; i<tableData.length; i++){
+
+          // Create the HTML Well (Section) and Add the table content for each reserved table
+          var tableSection = $("<div>");
+          tableSection.addClass('well');
+          tableSection.attr('id', 'tableWell-' + i+1)
+          $('#tableSection').append(tableSection);
+
+          var tableNumber = i + 1;
+
+
+          // Then display the remaining fields in the HTML (Section Name, Date, URL)
+          $("#tableWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
+        }
+      });
+  }
+
+  function runWaitListQuery(){
+
+    // Here we get the location of the root page.
+    // We use this instead of explicitly saying the URL is localhost:3001 because the url will change when we deploy.
+    var currentURL = window.location.origin;
+
+    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+    $.ajax({url: currentURL + "/api/waitlist", method: "GET"})
+      .done(function(waitlistData) {
+
+        // Here we are logging the URL so we have access to it for troubleshooting
+        console.log("------------------------------------");
+        console.log("URL: " + currentURL + "/api/waitlist");
+        console.log("------------------------------------");
+
+        // Here we then log the NYTData to console, where it will show up as an object.
+        console.log(waitlistData);
+        console.log("------------------------------------")
+
+        // Loop through and display each of the customers
+        for (var i=0; i<waitlistData.length; i++){
+
+          // Create the HTML Well (Section) and Add the table content for each reserved table
+          var waitlistSection = $("<div>");
+          waitlistSection.addClass('well');
+          waitlistSection.attr('id', 'waitlistWell-' + i+1)
+          $('#waitlistSection').append(waitlistSection);
+
+          var tableNumber = i + 1;
+
+          // Then display the remaining fields in the HTML (Section Name, Date, URL)
+          $("#waitlistWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + waitlistData[i].customerID + "</h2>");
+        }
+      });
+  }
+
+  // This function resets all of the data in our tables. This is intended to let you restart a demo.
+  function clearTable(){
+
+    var currentURL = window.location.origin;
+    $.ajax({url: currentURL + "/api/clear", method: "POST"})
+
+  }
+
+  $("#clear").on('click', function(){
+    alert("Clearing...");
+    clearTable();
+
+    // Refresh the page after data is cleared
+    location.reload();
+  })
+
+
+  // Run Queries!
+  // ==========================================
+  runTableQuery();
+  runWaitListQuery();
+
+
+
+
+
+
+
+    }
+  </script>
+</body>
+</html>

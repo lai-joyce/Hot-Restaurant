@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-	<h1>Hot Restaurant</h1>
-	
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="text-center"><h1>Hot Restaurant</h1>
+      <h3>We only have 5 tables! Book your seat before they all are gone!</h3>
+      </div>
+      <hr>
+      <a href="/add"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-list-alt"></span> View Tables</button></a>
+      <a href="/add"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
+    </div>
+     <footer class="footer">
+          <div class= "container">
+            <p>Control Panel</p>
+              <p>
+               
+                <a href="/api/tables" id="clear">API  Table LINK</a> |
+                <a href="/api/waitlist" id="clear">API  Wait List</a>|
+               </p> 
+          </div> 
+         </footer>      
+                
+
+    
+
 </body>
 </html>
