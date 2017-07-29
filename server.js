@@ -34,6 +34,30 @@ var reservationData = [
 }
 ];
 
+var waitlistData = [
+{
+	routeName: "sandy",
+	name: "Sandy",
+	phoneNumber: "sdfdsfsdf",
+	email: "sdfdsfdsf",
+	uniqueID: "45345435"
+},
+{
+	routeName: "penelope",
+	name: "Penelope",
+	phoneNumber: "124-324345345",
+	email: "test@test.com",
+	uniqueID: "test123"
+},
+{
+	routeName: "jack",
+	name: "Jack",
+	phoneNumber: "3dfs",
+	email: "4ddsf",
+	uniqueID: "dsfdfsfsew"
+}
+];
+
 app.get("/", function(req, res) {
 	res.sendFile(path.join(__dirname, "home.html"));
 });
@@ -58,12 +82,38 @@ app.get("/api/:reservationData?", function(req, res) {
 			}
 		}
 		 return res.json(false);
-		 console.log("reservation exists");
-	} else {
-		console.log("no such reservation");
-	}
+		 // console.log("reservation exists");
+		} 
+
+		// else {
+	// 	console.log("no such reservation");
+	// }
 	//console.log("returns all reservations");
 	return res.json(reservationData);
+});
+
+app.get("/waitlist/:waitlistData?", function(req, res) {
+	console.log("req is: ", req);
+	var waitlist = req.params.waitlistData;
+	console.log("waitlist is: ", waitlist);
+
+	if (waitlist) {
+		console.log(waitlist);
+
+		for (var i = 0; i < waitlistData.length; i++) {
+			if (waitlist === waitlistData[i].routeName) {
+				return res.json(waitlistData[i]);
+			}
+		}
+		 return res.json(false);
+		 // console.log("reservation exists");
+		} 
+
+		// else {
+	// 	console.log("no such reservation");
+	// }
+	//console.log("returns all reservations");
+	return res.json(waitlistData);
 });
 
 app.post("/api/new", function(req, res) {
@@ -71,7 +121,12 @@ app.post("/api/new", function(req, res) {
 	newReservation.routeName = newReservation.name.replace(/\s+/g, "").toLowerCase();
 
 	console.log(newReservation);
-	reservationData.push(newReservation);
+	if (reservationData.length <= 5) {
+		reservationData.push(newReservation);
+	} else {
+		waitlistData.push(newReservation);
+	}
+	
 	res.json(newReservation);
 });
 
