@@ -1,3 +1,3 @@
 # Hot-Restaurant
 
-##Full-stack application class activity example using Express.js framework for node.js server
+## Full-stack Node and Express application with API routing.
